@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book2Sell - Buy & Sell Used Books in India</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4A90E2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-50">
+        <nav class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-book-open text-2xl text-blue-600"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">Book2Sell</h1>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-2xl mx-8">
+                    <div class="relative">
+                        <input type="search" 
+                               placeholder="Search books by title, author, or category..." 
+                               class="w-full px-4 py-2 pl-10 pr-8 rounded-lg border focus:outline-none focus:border-blue-500"
+                               autocomplete="off">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="nav-link" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="sell" id="sellLink">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Sell Book</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="chat">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat</span>
+                    </a>
+                    <button id="loginBtn" class="nav-link" data-page="login">
+                        <i class="fas fa-user"></i>
+                        <span>Sign In</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-24 pb-8">
+        <!-- Filters Section -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-wrap gap-4 items-center">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Education Level</label>
+                    <select class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="">All Levels</option>
+                        <option value="class1-5">Class 1-5</option>
+                        <option value="class6-8">Class 6-8</option>
+                        <option value="class9-10">Class 9-10</option>
+                        <option value="class11-12">Class 11-12</option>
+                        <option value="undergraduate">Undergraduate</option>
+                        <option value="postgraduate">Postgraduate</option>
+                        <option value="competitive">Competitive Exams</option>
+                    </select>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Price Range (₹)</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" placeholder="Min" class="w-1/2 px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" min="0">
+                        <span>-</span>
+                        <input type="number" placeholder="Max" class="w-1/2 px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" min="0">
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Book Condition</label>
+                    <select class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="">Any Condition</option>
+                        <option value="new">Like New</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                        <option value="poor">Poor</option>
+                    </select>
+                </div>
+                <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200 mt-6">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <section id="home-page" class="page active">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Book listings will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Listing Detail Page -->
+        <section id="listing-page" class="page hidden">
+            <!-- Detailed listing content will be dynamically inserted here -->
+        </section>
+
+        <!-- Sell Book Page -->
+        <section id="sell-page" class="page hidden">
+            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-semibold mb-6">Sell Your Book</h2>
+                <div id="sellLoginPrompt" class="hidden bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-6">
+                    <p class="text-yellow-800">Please sign in to list your books for sale.</p>
+                    <button class="mt-2 text-blue-600 hover:text-blue-800" data-page="login">Sign In Now</button>
+                </div>
+                <form id="sell-form" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Book Title</label>
+                        <input type="text" name="title" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Author</label>
+                        <input type="text" name="author" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Education Level</label>
+                        <select name="educationLevel" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
+                            <option value="">Select education level</option>
+                            <option value="class1-5">Class 1-5</option>
+                            <option value="class6-8">Class 6-8</option>
+                            <option value="class9-10">Class 9-10</option>
+                            <option value="class11-12">Class 11-12</option>
+                            <option value="undergraduate">Undergraduate</option>
+                            <option value="postgraduate">Postgraduate</option>
+                            <option value="competitive">Competitive Exams</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Description</label>
+                        <textarea name="description" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="4" required></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Condition</label>
+                        <select name="condition" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
+                            <option value="">Select condition</option>
+                            <option value="new">Like New</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Price (₹)</label>
+                        <input type="number" name="price" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required min="0">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Location</label>
+                        <input type="text" name="location" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required placeholder="Enter your city, state"
+                               autocomplete="address-level2">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Contact Information</label>
+                        <input type="tel" name="contact" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number"
+                               autocomplete="tel">
+                        <p class="text-sm text-gray-500 mt-1">This will be hidden from other users. They can contact you through chat.</p>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                        List Book for Sale
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Chat Page -->
+        <section id="chat-page" class="page hidden">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Chat sidebar -->
+                <div class="md:col-span-1 bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-lg font-semibold mb-4">Conversations</h3>
+                    <div id="chat-list" class="space-y-2">
+                        <!-- Chat list items will be dynamically inserted here -->
+                    </div>
+                </div>
+                <!-- Chat main window -->
+                <div class="md:col-span-3 bg-white rounded-lg shadow-md p-4">
+                    <div id="chat-messages" class="h-96 overflow-y-auto mb-4 p-4">
+                        <!-- Messages will be dynamically inserted here -->
+                    </div>
+                    <div class="border-t pt-4">
+                        <form id="chat-form" class="flex space-x-2">
+                            <input type="text" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                                   placeholder="Type your message..." autocomplete="off">
+                            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Page -->
+        <section id="login-page" class="page hidden">
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-semibold mb-6 text-center">Sign In</h2>
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Email</label>
+                        <input type="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required autocomplete="email">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Password</label>
+                        <input type="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                        Sign In
+                    </button>
+                    <p class="text-center text-gray-600">
+                        Don't have an account? 
+                        <a href="#" class="text-blue-600 hover:text-blue-800" id="signupLink">Sign Up</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sign Up Page -->
+        <section id="signup-page" class="page hidden">
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-semibold mb-6 text-center">Create Account</h2>
+                <form id="signup-form" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Full Name</label>
+                        <input type="text" name="fullName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required autocomplete="name">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Email</label>
+                        <input type="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required autocomplete="email">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Password</label>
+                        <input type="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required autocomplete="new-password"
+                               pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                               title="Password must be at least 8 characters long and include at least one letter, one number, and one special character">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Confirm Password</label>
+                        <input type="password" name="confirmPassword" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" 
+                               required autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                        Create Account
+                    </button>
+                    <p class="text-center text-gray-600">
+                        Already have an account? 
+                        <a href="#" class="text-blue-600 hover:text-blue-800" id="loginLink">Sign In</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">About Book2Sell</h3>
+                    <p class="text-gray-300">Your trusted platform for buying and selling used books in India. Connect with fellow book lovers and find your next great read at affordable prices.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white">Home</a></li>
+                        <li><a href="#" class="hover:text-white">Sell Book</a></li>
+                        <li><a href="#" class="hover:text-white">Chat</a></li>
+                        <li><a href="#" class="hover:text-white">Sign In</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-envelope mr-2"></i> support@book2sell.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +91 123-456-7890</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
+                <p>&copy; 2024 Book2Sell. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
