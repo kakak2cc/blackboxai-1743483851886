@@ -1,0 +1,36 @@
+{
+    "name": "Book2Sell - Buy & Sell Used Books in India",
+    "short_name": "Book2Sell",
+    "description": "A platform for students and book lovers to buy and sell used books across India",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4A90E2",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4da.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["education", "books", "shopping"],
+    "lang": "en-IN",
+    "dir": "ltr",
+    "prefer_related_applications": false,
+    "related_applications": [],
+    "scope": "/",
+    "shortcuts": [
+        {
+            "name": "Sell a Book",
+            "url": "/sell",
+            "description": "List your book for sale"
+        },
+        {
+            "name": "My Messages",
+            "url": "/chat",
+            "description": "View your conversations"
+        }
+    ]
+}
